@@ -12,7 +12,7 @@ namespace WinForms_Tetris1
 		/// Заполняет набор кирпичиков по массиву-шаблонов. 
 		/// Кирпичики ставим там где нет нулей.
 		/// </summary>
-		public static BrickSet CreateByArray(Brick brick, uint[,] templateArray)
+		public static BrickSet CreateByArray(uint[,] templateArray, Brick brick)
 		{
 			int rows = templateArray.GetUpperBound(0) + 1;
 			int columns = templateArray.Length / rows;

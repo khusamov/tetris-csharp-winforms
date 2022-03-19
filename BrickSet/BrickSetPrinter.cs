@@ -8,37 +8,49 @@ namespace WinForms_Tetris1
 {
 	internal class BrickSetPrinter
 	{
-		readonly BrickSet2[] BrickSets;
-		readonly Graphics Graphics;
+		private readonly BrickSet[] BrickSets;
+		private readonly Graphics Graphics;
 
-		public BrickSetPrinter(BrickSet2[] brickSets, Graphics graphics)
+		private const int offsetX = 20; //px
+		private const int offsetY = 20; //px
+
+		private const int brickDisplaySize = 30; //px
+		private const int brickDisplayWidth = brickDisplaySize;
+		private const int brickDisplayHeight = brickDisplaySize;
+
+		private const int displaySpaceBetweenBricks = 2; //px
+
+		public BrickSetPrinter(BrickSet[] layers, Graphics graphics)
 		{
-			BrickSets = brickSets;
+			BrickSets = layers;
 			Graphics = graphics;
 		}
 
 		public void Print()
 		{
-			SolidBrush emptyCellBrush = new(Color.Black);
-			const int offsetX = 20;
-			const int offsetY = 20;
-			const int brickSize = 30;
-			const int brickWidth = brickSize;
-			const int brickHeight = brickSize;
-			const int space = 2;
+			foreach (BrickSet brickSet in BrickSets)
+				foreach (BrickPlace place in brickSet)
+					PrintOneBrick(place, brickSet);
+		}
 
-			foreach (BrickSet2 brickSet in BrickSets)
+		private void PrintOneBrick(BrickPlace place, BrickSet brickSet)
+		{
+			if (place.Brick != null)
 			{
-				brickSet.Each((col, row, brick) => {
-					if (brick != null)
-					{
-						int x = offsetX + (brickSet.ColOffset + col) * (brickWidth + space);
-						int y = offsetY + (brickSet.RowOffset + row) * (brickHeight + space);
 
-						Graphics.FillRectangle(brick.Brush, new Rectangle(x, y, brickWidth, brickHeight));
-					}
-				});
+				int column = brickSet.Offset.Column + place.Position.Column;
+				int row = brickSet.Offset.Row + place.Position.Row;
+
+				int x = offsetX + column * (brickDisplayWidth + displaySpaceBetweenBricks);
+				int y = offsetY + row * (brickDisplayHeight + displaySpaceBetweenBricks);
+
+				PrintRectangle(place.Brick.Brush, x, y, brickDisplayWidth, brickDisplayHeight);
 			}
+		}
+
+		private void PrintRectangle(Brush brush, int x, int y, int width, int height)
+		{
+			Graphics.FillRectangle(brush, new Rectangle(x, y, width, height));
 		}
 	}
 }

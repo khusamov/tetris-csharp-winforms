@@ -11,9 +11,9 @@ namespace WinForms_Tetris1
 	/// </summary>
 	internal class BrickSetPainter
 	{
-		BrickSet2 BrickSet;
+		readonly BrickSet BrickSet;
 
-		public BrickSetPainter(BrickSet2 set)
+		public BrickSetPainter(BrickSet set)
 		{
 			BrickSet = set;
 		}
@@ -24,7 +24,7 @@ namespace WinForms_Tetris1
 		private void SetPixel(int x, int y, Brick? brick = null)
 		{
 			brick ??= new Brick(new SolidBrush(Color.Cyan));
-			BrickSet.SetBrick(x, y, brick);
+			BrickSet[x, y] = brick;
 		}
 
 		/// <summary>

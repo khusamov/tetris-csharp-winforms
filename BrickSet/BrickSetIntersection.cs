@@ -17,7 +17,7 @@ namespace WinForms_Tetris1
 			BrickSet2 = brickSet2;
 		}
 
-		public bool Check() => Count() > 0;
+		public bool IsIntersect() => Count() > 0;
 
 		private int Count()
 		{
@@ -28,8 +28,12 @@ namespace WinForms_Tetris1
 				BrickSet1.Offset.Column - BrickSet2.Offset.Column
 			);
 
-			foreach ((int row1, int column1, Brick? brick1) in BrickSet1)
+			foreach (BrickPlace place1 in BrickSet1)
 			{
+				int row1 = place1.Position.Row; 
+				int column1 = place1.Position.Column; 
+				Brick? brick1 = place1.Brick;
+
 				Brick? brick2 = BrickSet2[row1 + offset.row, column1 + offset.column];
 				if (brick1 is not null && brick2 is not null)
 				{

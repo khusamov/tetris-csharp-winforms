@@ -7,27 +7,20 @@ using System.Threading.Tasks;
 
 namespace WinForms_Tetris1;
 
-internal record BrickPosition(int Row, int Column);
-
-/// <summary>
-/// Место кирпичика в наборе кирпичиков BrickSet.
-/// </summary>
-internal record BrickPlace(BrickPosition Position, Brick? Brick);
-
 internal partial class BrickSet
 {
 
 	internal struct Enumerator : IEnumerator<BrickPlace>
 	{
 		private static readonly BrickPosition _startPosition = new(-1, 0);
-		private readonly BrickSet _targetBrickSet;
 		private BrickPosition _position = _startPosition;
+		private readonly BrickSet _targetBrickSet;
 
 		public Enumerator(BrickSet brickSet) => _targetBrickSet = brickSet;
 
 		public BrickPlace Current => new(
 			Position: _position,
-			Brick: _targetBrickSet[_position.Column, _position.Row]
+			Brick: _targetBrickSet[_position.Row, _position.Column]
 		);
 
 		object IEnumerator.Current => Current;

@@ -41,9 +41,19 @@ namespace WinForms_Tetris1
 			set { if (IsValidIndex(row, column)) Bricks[row, column] = value; }
 		}
 
+		public Brick? this[BrickPosition position]
+		{
+			get => IsValidPosition(position) ? Bricks[position.Row, position.Column] : null;
+			set { if (IsValidPosition(position)) Bricks[position.Row, position.Column] = value; }
+		}
+
 		private bool IsValidIndex(int row, int column) =>
 			0 <= row && row < Rows
-			&& 0 <= column && row < Columns;
+			&& 0 <= column && column < Columns;
+
+		private bool IsValidPosition(BrickPosition position) =>
+			0 <= position.Row && position.Row < Rows
+			&& 0 <= position.Column && position.Column < Columns;
 
 		public IEnumerator<BrickPlace> GetEnumerator() => _enumerator;
 

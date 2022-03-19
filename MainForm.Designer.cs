@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this.MainTimer = new System.Windows.Forms.Timer(this.components);
+			this.GameTimer = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
-			// MainTimer
+			// GameTimer
 			// 
-			this.MainTimer.Tick += new System.EventHandler(this.MainTimer_Tick);
+			this.GameTimer.Tick += new System.EventHandler(this.MainTimer_Tick);
 			// 
 			// MainForm
 			// 
@@ -43,6 +43,7 @@
 			this.ClientSize = new System.Drawing.Size(720, 723);
 			this.Name = "MainForm";
 			this.Text = "Тетрис";
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
 			this.ResumeLayout(false);
@@ -51,6 +52,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.Timer MainTimer;
+		private System.Windows.Forms.Timer GameTimer;
 	}
 }
