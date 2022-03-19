@@ -8,10 +8,10 @@ namespace WinForms_Tetris1
 {
 	internal class BrickSetPrinter
 	{
-		readonly BrickSet[] BrickSets;
+		readonly BrickSet2[] BrickSets;
 		readonly Graphics Graphics;
 
-		public BrickSetPrinter(BrickSet[] brickSets, Graphics graphics)
+		public BrickSetPrinter(BrickSet2[] brickSets, Graphics graphics)
 		{
 			BrickSets = brickSets;
 			Graphics = graphics;
@@ -25,17 +25,18 @@ namespace WinForms_Tetris1
 			const int brickSize = 30;
 			const int brickWidth = brickSize;
 			const int brickHeight = brickSize;
-			const int space = 3;
+			const int space = 2;
 
-			foreach (BrickSet brickSet in BrickSets)
+			foreach (BrickSet2 brickSet in BrickSets)
 			{
 				brickSet.Each((col, row, brick) => {
-					SolidBrush brush = brick == null ? emptyCellBrush : brick.Brush;
+					if (brick != null)
+					{
+						int x = offsetX + (brickSet.ColOffset + col) * (brickWidth + space);
+						int y = offsetY + (brickSet.RowOffset + row) * (brickHeight + space);
 
-					int x = offsetX + (brickSet.OffsetCol + col) * (brickWidth + space);
-					int y = offsetY + (brickSet.OffsetRow + row) * (brickHeight + space);
-
-					Graphics.FillRectangle(brush, new Rectangle(x, y, brickWidth, brickHeight));
+						Graphics.FillRectangle(brick.Brush, new Rectangle(x, y, brickWidth, brickHeight));
+					}
 				});
 			}
 		}

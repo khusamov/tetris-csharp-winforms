@@ -8,11 +8,10 @@ namespace WinForms_Tetris1
 {
 	internal class Brick
 	{
-		public SolidBrush Brush = new SolidBrush(Color.Black);
+		public SolidBrush Brush;
 
-		public Brick(SolidBrush? brush = null)
+		public Brick(SolidBrush brush)
 		{
-			if (brush == null) brush = new SolidBrush(Color.Black);
 			Brush = brush;
 		}
 
