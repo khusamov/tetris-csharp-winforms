@@ -16,12 +16,14 @@ namespace WinForms_Tetris1
 		private readonly Graphics Graphics;
 		private readonly Size FormSize;
 		private readonly Color BackColor;
+		private readonly DoubleBuffer DoubleBuffer;
 
 		public Game(Graphics graphics, Size formSize, Color backColor)
 		{
 			Graphics = graphics;
 			FormSize = formSize;
 			BackColor = backColor;
+			DoubleBuffer = new(Graphics, FormSize.Width, FormSize.Height);
 
 			// Размер стакана (включая стенки).
 			int rows = 20;
@@ -50,14 +52,13 @@ namespace WinForms_Tetris1
 
 		private void Draw()
 		{
-			DoubleBuffer doubleBuffer = new(Graphics, FormSize.Width, FormSize.Height);
-			Graphics bufferedGraphics = doubleBuffer.GetBufferedGraphics();
+			Graphics bufferedGraphics = DoubleBuffer.GetBufferedGraphics();
 
 			bufferedGraphics.Clear(BackColor);
 			BrickSet[] layers = { Background, Cup, CupContent, Figure };
 			new BrickSetPrinter(layers, bufferedGraphics).Print();
 
-			doubleBuffer.Render();
+			DoubleBuffer.Render();
 		}
 
 		private static void FillCupWithWalls(BrickSet cup)
