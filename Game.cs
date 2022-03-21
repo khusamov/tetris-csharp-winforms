@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Timer = System.Windows.Forms.Timer;
 
 namespace WinForms_Tetris1
 {
 	internal class Game
 	{
-		private readonly Polyomino.TetraminoList Tetramino = new();
 		private readonly BrickSet Background;
 		private readonly BrickSet Cup;
 		private readonly BrickSet CupContent;
 		private readonly BrickSet Figure;
+
 		private readonly Graphics Graphics;
 		private readonly Size FormSize;
 		private readonly Color BackColor;
 		private readonly DoubleBuffer DoubleBuffer;
+		private readonly Polyomino.TetraminoList Tetramino = new();
 
 		public Game(Graphics graphics, Size formSize, Color backColor)
 		{
@@ -48,6 +50,30 @@ namespace WinForms_Tetris1
 			Brick figureBrick = new(new SolidBrush(Color.GreenYellow));
 			Figure = new BasedArrayBrickSetCreator(Tetramino[0], figureBrick).Create();
 			Figure.Offset = (3, 3);
+
+
+			System.Timers.Timer timer = new(1000);
+			timer.Elapsed += new System.Timers.ElapsedEventHandler(
+				(object? sender, System.Timers.ElapsedEventArgs @event) => {
+					BrickSet figureClone = Figure.Clone();
+					figureClone.Offset.Row++;
+					if (
+						!new BrickSetIntersection(figureClone, CupContent).IsIntersect()
+						&& !new BrickSetIntersection(figureClone, Cup).IsIntersect()
+					)
+					{
+						Figure.Offset.Row++;
+					}
+				}
+			);
+			timer.Start();
+		}
+
+		public void Start()
+		{
+			Timer gameTimer = new() { Interval = 100 };
+			gameTimer.Tick += new EventHandler(Tick);
+			gameTimer.Start();
 		}
 
 		private void Draw()
@@ -71,12 +97,12 @@ namespace WinForms_Tetris1
 				.DrawLine(cup.Rows - 1, 0, cup.Rows - 1, cup.Columns - 1, getBrick);
 		}
 
-		public void Tick()
+		public void Tick(object? sender, EventArgs e)
 		{
 			Draw();
 		}
 
-		public void OnKeyDown(object sender, KeyEventArgs @event)
+		public void OnKeyDown(object? sender, KeyEventArgs @event)
 		{
 			BrickSet figureClone = Figure.Clone();
 			switch (@event.KeyCode)

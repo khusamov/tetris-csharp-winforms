@@ -30,20 +30,40 @@
         {
 			this.components = new System.ComponentModel.Container();
 			this.GameTimer = new System.Windows.Forms.Timer(this.components);
+			this.StartButton = new System.Windows.Forms.Button();
+			this.PauseButon = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// GameTimer
 			// 
-			this.GameTimer.Tick += new System.EventHandler(this.MainTimer_Tick);
+			// 
+			// StartButton
+			// 
+			this.StartButton.Location = new System.Drawing.Point(559, 49);
+			this.StartButton.Name = "StartButton";
+			this.StartButton.Size = new System.Drawing.Size(149, 42);
+			this.StartButton.TabIndex = 0;
+			this.StartButton.Text = "Старт";
+			this.StartButton.UseVisualStyleBackColor = true;
+			// 
+			// PauseButon
+			// 
+			this.PauseButon.Location = new System.Drawing.Point(559, 117);
+			this.PauseButon.Name = "PauseButon";
+			this.PauseButon.Size = new System.Drawing.Size(149, 42);
+			this.PauseButon.TabIndex = 1;
+			this.PauseButon.Text = "Пауза";
+			this.PauseButon.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(720, 723);
+			this.ClientSize = new System.Drawing.Size(1058, 840);
+			this.Controls.Add(this.PauseButon);
+			this.Controls.Add(this.StartButton);
 			this.Name = "MainForm";
 			this.Text = "Тетрис";
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
 			this.ResumeLayout(false);
 
         }
@@ -51,5 +71,7 @@
 		#endregion
 
 		private System.Windows.Forms.Timer GameTimer;
+		private Button StartButton;
+		private Button PauseButon;
 	}
 }
