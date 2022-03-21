@@ -43,8 +43,6 @@
 			this.ClientSize = new System.Drawing.Size(720, 723);
 			this.Name = "MainForm";
 			this.Text = "Тетрис";
-			this.Load += new System.EventHandler(this.MainForm_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
 			this.ResumeLayout(false);
 

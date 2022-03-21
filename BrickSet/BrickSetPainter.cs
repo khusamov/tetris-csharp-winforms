@@ -19,22 +19,24 @@ namespace WinForms_Tetris1
 		}
 
 		/// <summary>
-		/// Заполнение ячейки кирпичиком.
+		/// Рисование линии из кирпичиков.
 		/// </summary>
-		private void SetPixel(int x, int y, Brick? brick = null)
+		public BrickSetPainter DrawLine(int row1, int col1, int row2, int col2, Func<int, int, Brick> getBrick)
 		{
-			brick ??= new Brick(new SolidBrush(Color.Cyan));
-			BrickSet[x, y] = brick;
+			Math.Bresenham.DrawLine(
+				col1, row1, col2, row2, 
+				(x, y) => FillBrickPlace(y, x, getBrick(y, x))
+			);
+			return this;
 		}
 
 		/// <summary>
-		/// Рисование линии из кирпичиков.
+		/// Заполнение ячейки кирпичиком.
 		/// </summary>
-		public BrickSetPainter DrawLine(int x1, int y1, int x2, int y2, Func<int, int, Brick>? getBrick = null)
+		private void FillBrickPlace(int row, int column, Brick? brick = null)
 		{
-			getBrick ??= ((x, y) => new Brick(new SolidBrush(Color.Cyan)));
-			Math.Bresenham.DrawLine(x1, y1, x2, y2, (x, y) => SetPixel(x, y, getBrick(x, y)));
-			return this;
+			brick ??= new Brick(new SolidBrush(Color.Cyan));
+			BrickSet[row, column] = brick;
 		}
 	}
 }

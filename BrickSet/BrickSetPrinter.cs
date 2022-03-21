@@ -37,9 +37,8 @@ namespace WinForms_Tetris1
 		{
 			if (place.Brick != null)
 			{
-
-				int column = brickSet.Offset.Column + place.Position.Column;
 				int row = brickSet.Offset.Row + place.Position.Row;
+				int column = brickSet.Offset.Column + place.Position.Column;
 
 				int x = offsetX + column * (brickDisplayWidth + displaySpaceBetweenBricks);
 				int y = offsetY + row * (brickDisplayHeight + displaySpaceBetweenBricks);

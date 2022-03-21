@@ -6,13 +6,23 @@ using System.Threading.Tasks;
 
 namespace WinForms_Tetris1
 {
-	internal class BrickSetFactory
+	internal class BasedArrayBrickSetCreator : ICreator<BrickSet>
 	{
+		private readonly uint[,] templateArray;
+		private readonly Brick brick;
+
+
+		public BasedArrayBrickSetCreator(uint[,] templateArray, Brick brick)
+		{
+			this.templateArray = templateArray;
+			this.brick = brick;
+		}
+
 		/// <summary>
 		/// Заполняет набор кирпичиков по массиву-шаблонов. 
 		/// Кирпичики ставим там где нет нулей.
 		/// </summary>
-		public static BrickSet CreateByArray(uint[,] templateArray, Brick brick)
+		public BrickSet Create()
 		{
 			int rows = templateArray.GetUpperBound(0) + 1;
 			int columns = templateArray.Length / rows;

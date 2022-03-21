@@ -29,7 +29,7 @@ namespace WinForms_Tetris1
 
 		public BrickSet Clone()
 		{
-			BrickSet clone = new (Rows, Columns) { Offset = Offset };
+			BrickSet clone = new (Rows, Columns) { Offset = (Offset.Row, Offset.Column) };
 			foreach ((int Row, int Column, Brick? Brick) in this)
 				clone[Row, Column] = Brick?.Clone();
 			return clone;

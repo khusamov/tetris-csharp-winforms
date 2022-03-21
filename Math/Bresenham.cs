@@ -13,6 +13,14 @@ namespace WinForms_Tetris1.Math
 	/// </summary>
 	internal class Bresenham
 	{
+		/// <summary>
+		/// Нарисовать прямую линию.
+		/// </summary>
+		/// <param name="x1">Начало линии</param>
+		/// <param name="y1">Начало линии</param>
+		/// <param name="x2">Конец линии</param>
+		/// <param name="y2">Конец линии</param>
+		/// <param name="setPixel">Обратная функция от (x, y)</param>
 		static public void DrawLine(int x1, int y1, int x2, int y2, Action<int, int> setPixel)
 		{
 			int deltaX = System.Math.Abs(x2 - x1);

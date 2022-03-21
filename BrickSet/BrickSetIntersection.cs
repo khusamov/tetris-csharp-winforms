@@ -19,22 +19,23 @@ namespace WinForms_Tetris1
 
 		public bool IsIntersect() => Count() > 0;
 
+		/// <summary>
+		/// Количество пересекающихся кирпичиков.
+		/// </summary>
 		private int Count()
 		{
 			int result = 0;
 
-			(int row, int column) offset = (
-				BrickSet1.Offset.Row - BrickSet2.Offset.Row,
-				BrickSet1.Offset.Column - BrickSet2.Offset.Column
-			);
+			(int row, int column) offset = GetOffset();
 
 			foreach (BrickPlace place1 in BrickSet1)
 			{
-				int row1 = place1.Position.Row; 
-				int column1 = place1.Position.Column; 
 				Brick? brick1 = place1.Brick;
+				int row1 = place1.Position.Row; 
+				int column1 = place1.Position.Column;
 
 				Brick? brick2 = BrickSet2[row1 + offset.row, column1 + offset.column];
+
 				if (brick1 is not null && brick2 is not null)
 				{
 					result++;
@@ -42,6 +43,14 @@ namespace WinForms_Tetris1
 			}
 
 			return result;
+		}
+
+		private (int row, int column) GetOffset()
+		{
+			return (
+				BrickSet1.Offset.Row - BrickSet2.Offset.Row,
+				BrickSet1.Offset.Column - BrickSet2.Offset.Column
+			);
 		}
 	}
 }
