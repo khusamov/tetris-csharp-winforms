@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinForms_Tetris1.Memento;
+//using WinForms_Tetris1.Extension;
 
 namespace WinForms_Tetris1
 {
-	internal partial class BrickSet : IEnumerable<BrickPlace>
+	internal partial class BrickSet : IEnumerable<BrickPlace>, IOriginator<BrickSetState>
 	{
 		public int Rows { get; private set; }
 
 		public int Columns { get; private set; }
 
-		public (int Row, int Column) Offset = (0, 0);
+		public BrickPosition Offset = new(0, 0);
 
-		private readonly Brick?[,] Bricks;
+		private Brick?[,] Bricks;
 
 		private readonly Enumerator _enumerator;
 
@@ -29,7 +31,7 @@ namespace WinForms_Tetris1
 
 		public BrickSet Clone()
 		{
-			BrickSet clone = new (Rows, Columns) { Offset = (Offset.Row, Offset.Column) };
+			BrickSet clone = new(Rows, Columns) { Offset = Offset.Clone() };
 			foreach ((int Row, int Column, Brick? Brick) in this)
 				clone[Row, Column] = Brick?.Clone();
 			return clone;
@@ -58,5 +60,16 @@ namespace WinForms_Tetris1
 		public IEnumerator<BrickPlace> GetEnumerator() => _enumerator;
 
 		IEnumerator IEnumerable.GetEnumerator() => _enumerator;
+
+		public IMemento<BrickSetState> SaveStateToMemento() =>
+			// TODO Изучить клонирование двумерных массивов. Возможно тут клонируется лишь первый уровень, а на второй будут ссылки.
+			new BrickSetMemento(new BrickSetState(new(Rows, Columns), (Brick?[,]) Bricks.Clone()));
+
+		public void RestoreStateFromMemento(IMemento<BrickSetState> memento)
+		{
+			Rows = memento.GetState().Size.Rows;
+			Columns = memento.GetState().Size.Columns;
+			Bricks = memento.GetState().Bricks;
+		}
 	}
 }

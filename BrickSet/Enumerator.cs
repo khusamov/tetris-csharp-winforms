@@ -9,7 +9,6 @@ namespace WinForms_Tetris1;
 
 internal partial class BrickSet
 {
-
 	internal struct Enumerator : IEnumerator<BrickPlace>
 	{
 		private static readonly BrickPosition _startPosition = new(-1, 0);

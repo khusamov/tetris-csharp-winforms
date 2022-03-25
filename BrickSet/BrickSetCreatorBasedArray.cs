@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace WinForms_Tetris1
 {
-	internal class BasedArrayBrickSetCreator : ICreator<BrickSet>
+	internal class BrickSetCreatorBasedArray : ICreator<BrickSet>
 	{
 		private readonly uint[,] templateArray;
 		private readonly Brick brick;
 
 
-		public BasedArrayBrickSetCreator(uint[,] templateArray, Brick brick)
+		public BrickSetCreatorBasedArray(uint[,] templateArray, Brick brick)
 		{
 			this.templateArray = templateArray;
 			this.brick = brick;

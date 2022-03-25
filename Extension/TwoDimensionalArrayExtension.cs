@@ -32,5 +32,18 @@ namespace WinForms_Tetris1.Extension
 
 			return result;
 		}
+
+		/*public static T[,] Clone<T>(this T[,] array)
+		{
+			(int rows, int columns) = array.GetSize();
+
+			T[,] result = new T[columns, rows];
+
+			for (int row = 0; row < rows; row++)
+				for (int col = 0; col < columns; col++)
+					result[row, col] = array[row, col];
+
+			return result;
+		}*/
 	}
 }

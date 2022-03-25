@@ -9,10 +9,13 @@ namespace WinForms_Tetris1
 {
 	internal class Game
 	{
+		private readonly Timer GameTimer = new() { Interval = 100 };
+		private readonly Timer FallingFigureTimer = new() { Interval = 1000 };
+
 		private readonly BrickSet Background;
 		private readonly BrickSet Cup;
 		private readonly BrickSet CupContent;
-		private readonly BrickSet Figure;
+		private BrickSet Figure;
 
 		private readonly Graphics Graphics;
 		private readonly Size FormSize;
@@ -43,18 +46,16 @@ namespace WinForms_Tetris1
 			// Создаем содержимое стакана.
 			CupContent = new(rows - 1, columns - 2)
 			{
-				Offset = (1, 0)
+				Offset = new(1, 0)
 			};
 
 			// Создать падающую фигуру.
 			Brick figureBrick = new(new SolidBrush(Color.GreenYellow));
-			Figure = new BasedArrayBrickSetCreator(Tetramino[0], figureBrick).Create();
-			Figure.Offset = (3, 3);
+			Figure = new BrickSetCreatorBasedArray(Tetramino[0], figureBrick).Create();
+			Figure.Offset = new(3, 3);
 
-
-			System.Timers.Timer timer = new(1000);
-			timer.Elapsed += new System.Timers.ElapsedEventHandler(
-				(object? sender, System.Timers.ElapsedEventArgs @event) => {
+			FallingFigureTimer.Tick += new EventHandler(
+				(object? sender, EventArgs @event) => {
 					BrickSet figureClone = Figure.Clone();
 					figureClone.Offset.Row++;
 					if (
@@ -66,14 +67,18 @@ namespace WinForms_Tetris1
 					}
 				}
 			);
-			timer.Start();
+			FallingFigureTimer.Start();
 		}
 
 		public void Start()
 		{
-			Timer gameTimer = new() { Interval = 100 };
-			gameTimer.Tick += new EventHandler(Tick);
-			gameTimer.Start();
+			GameTimer.Tick += new EventHandler(Tick);
+			GameTimer.Start();
+		}
+
+		private void Tick(object? sender, EventArgs e)
+		{
+			Draw();
 		}
 
 		private void Draw()
@@ -97,16 +102,17 @@ namespace WinForms_Tetris1
 				.DrawLine(cup.Rows - 1, 0, cup.Rows - 1, cup.Columns - 1, getBrick);
 		}
 
-		public void Tick(object? sender, EventArgs e)
-		{
-			Draw();
-		}
-
 		public void OnKeyDown(object? sender, KeyEventArgs @event)
 		{
 			BrickSet figureClone = Figure.Clone();
 			switch (@event.KeyCode)
 			{
+				case Keys.Space:
+					if (!new BrickSetIntersection(Cup, new BrickSetRotator(figureClone).RotateClockwise()).IsIntersect())
+					{
+						Figure = new BrickSetRotator(figureClone).RotateClockwise();
+					}
+					break;
 				case Keys.Up:
 					figureClone.Offset.Row--;
 					if (!new BrickSetIntersection(Cup, figureClone).IsIntersect()) Figure.Offset.Row--;
