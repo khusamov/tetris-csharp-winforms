@@ -61,15 +61,16 @@ namespace WinForms_Tetris1
 
 		IEnumerator IEnumerable.GetEnumerator() => _enumerator;
 
-		public IMemento<BrickSetState> SaveStateToMemento() =>
-			// TODO Изучить клонирование двумерных массивов. Возможно тут клонируется лишь первый уровень, а на второй будут ссылки.
-			new Memento(new BrickSetState(new(Rows, Columns), (Brick?[,]) Bricks.Clone()));
+		public IMemento<BrickSetState> CreateMemento() =>
+				// TODO Изучить клонирование двумерных массивов. Возможно тут клонируется лишь первый уровень, а на второй будут ссылки.
+				new Memento(new BrickSetState(new(Rows, Columns), (Brick?[,])Bricks.Clone()));
 
-		public void RestoreStateFromMemento(IMemento<BrickSetState> memento)
+
+		public void RestoreFromMemento(IMemento<BrickSetState> memento)
 		{
-			Rows = memento.GetState().Size.Rows;
-			Columns = memento.GetState().Size.Columns;
-			Bricks = memento.GetState().Bricks;
+			Rows = memento.State.Size.Rows;
+			Columns = memento.State.Size.Columns;
+			Bricks = memento.State.Bricks;
 		}
 	}
 }

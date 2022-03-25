@@ -108,9 +108,9 @@ namespace WinForms_Tetris1
 			switch (@event.KeyCode)
 			{
 				case Keys.Space:
-					if (!new BrickSetIntersection(Cup, new BrickSetRotator(figureClone).RotateClockwise()).IsIntersect())
+					if (!new BrickSetIntersection(Cup, new BrickSetRotator(figureClone).Clockwise()).IsIntersect())
 					{
-						Figure = new BrickSetRotator(figureClone).RotateClockwise();
+						Figure = new BrickSetRotator(figureClone).Clockwise();
 					}
 					break;
 				case Keys.Up:

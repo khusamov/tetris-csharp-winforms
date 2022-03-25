@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace WinForms_Tetris1.Memento
 {
-	internal interface ICaretaker
+	internal interface ICaretaker<S>
 	{
+		public void Push(IMemento<S> memento);
+
+		public IMemento<S> Pop();
 	}
 }

@@ -8,8 +8,8 @@ namespace WinForms_Tetris1.Memento
 {
 	internal interface IOriginator<S>
 	{
-		public IMemento<S> SaveStateToMemento();
+		public IMemento<S> CreateMemento();
 
-		public void RestoreStateFromMemento(IMemento<S> memento);
+		public void RestoreFromMemento(IMemento<S> memento);
 	}
 }

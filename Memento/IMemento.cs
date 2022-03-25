@@ -8,6 +8,6 @@ namespace WinForms_Tetris1.Memento
 {
 	internal interface IMemento<S>
 	{
-		S GetState();
+		S State { get; }
 	}
 }

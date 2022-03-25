@@ -7,7 +7,7 @@ using WinForms_Tetris1.Extension;
 
 namespace WinForms_Tetris1
 {
-	internal class BrickSetRotator : Memento.ICaretaker
+	internal class BrickSetRotator
 	{
 		private readonly BrickSet _brickSet;
 
@@ -17,13 +17,14 @@ namespace WinForms_Tetris1
 		}
 
 		/// <summary>
-		/// Создает новый BrickSet с измененным состоянием (поворот матрицы).
+		/// Поворот матрицы по часовой стрелке.
+		/// Создает новый BrickSet с измененным состоянием.
 		/// </summary>
-		public BrickSet RotateClockwise()
+		public BrickSet Clockwise()
 		{
 			BrickSet result = _brickSet.Clone();
 
-			BrickSetState brickSetState = result.SaveStateToMemento().GetState();
+			BrickSetState brickSetState = result.CreateMemento().State;
 
 			BrickSetState newBrickSetState = (
 				new BrickSetState(
@@ -32,9 +33,18 @@ namespace WinForms_Tetris1
 				)
 			);
 
-			result.RestoreStateFromMemento(new BrickSet.Memento(newBrickSetState));
+			result.RestoreFromMemento(new BrickSet.Memento(newBrickSetState));
 
 			return result;
+		}
+
+		/// <summary>
+		/// Поворот матрицы против часовой стрелки.
+		/// Создает новый BrickSet с измененным состоянием.
+		/// </summary>
+		public BrickSet CounterClockwise()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

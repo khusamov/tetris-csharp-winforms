@@ -14,19 +14,18 @@ internal partial class BrickSet
 
 	internal class Memento : IMemento<BrickSetState>
 	{
-		public BrickSetSize Size;
+		private readonly BrickSetState _state;
 
-		public Brick?[,] Bricks;
+		public BrickSetState State {
+			get
+			{
+				return _state;
+			}
+		}
 
 		public Memento(BrickSetState state)
 		{
-			Size = state.Size;
-			Bricks = state.Bricks;
-		}
-
-		public BrickSetState GetState()
-		{
-			return new BrickSetState(Size, Bricks);
+			_state = state;
 		}
 	}
 }
