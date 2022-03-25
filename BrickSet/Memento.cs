@@ -12,13 +12,13 @@ internal record BrickSetState(BrickSetSize Size, Brick?[,] Bricks);
 internal partial class BrickSet
 {
 
-	internal class BrickSetMemento : IMemento<BrickSetState>
+	internal class Memento : IMemento<BrickSetState>
 	{
 		public BrickSetSize Size;
 
 		public Brick?[,] Bricks;
 
-		public BrickSetMemento(BrickSetState state)
+		public Memento(BrickSetState state)
 		{
 			Size = state.Size;
 			Bricks = state.Bricks;

@@ -32,7 +32,7 @@ namespace WinForms_Tetris1
 				)
 			);
 
-			result.RestoreStateFromMemento(new BrickSet.BrickSetMemento(newBrickSetState));
+			result.RestoreStateFromMemento(new BrickSet.Memento(newBrickSetState));
 
 			return result;
 		}

@@ -63,7 +63,7 @@ namespace WinForms_Tetris1
 
 		public IMemento<BrickSetState> SaveStateToMemento() =>
 			// TODO Изучить клонирование двумерных массивов. Возможно тут клонируется лишь первый уровень, а на второй будут ссылки.
-			new BrickSetMemento(new BrickSetState(new(Rows, Columns), (Brick?[,]) Bricks.Clone()));
+			new Memento(new BrickSetState(new(Rows, Columns), (Brick?[,]) Bricks.Clone()));
 
 		public void RestoreStateFromMemento(IMemento<BrickSetState> memento)
 		{
