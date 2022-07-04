@@ -18,5 +18,11 @@ namespace WinForms_Tetris1
 		}
 
 		public BrickSetSize Clone() => new(Rows, Columns);
+
+		public void Deconstruct(out int rows, out int columns)
+		{
+			rows = Rows;
+			columns = Columns;
+		}
 	}
 }

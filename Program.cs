@@ -11,7 +11,7 @@ internal static class Program
 
 		MainForm mainForm = new();
 
-		Game game = new(mainForm.CreateGraphics(), mainForm.Size, mainForm.BackColor);
+		Game.Game game = new(mainForm.CreateGraphics(), mainForm.Size, mainForm.BackColor);
 		mainForm.KeyDown += new KeyEventHandler(game.OnKeyDown);
 
 		game.Start();

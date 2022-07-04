@@ -29,5 +29,11 @@ namespace WinForms_Tetris1
 		{
 			return new(Row, Column);
 		}
+
+		public void Deconstruct(out int row, out int column)
+		{
+			row = Row;
+			column = Column;
+		}
 	}
 }

@@ -5,12 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Timer = System.Windows.Forms.Timer;
 
-namespace WinForms_Tetris1
+namespace WinForms_Tetris1.Game
 {
 	internal class Game
 	{
+		// Размер стакана (включая стенки).
+		private readonly int rows = 20;
+		private readonly int columns = 10;
+
 		private readonly Timer GameTimer = new() { Interval = 100 };
 		private readonly Timer FallingFigureTimer = new() { Interval = 1000 };
+
+		private readonly List<BrickSet> layers;
 
 		private readonly BrickSet Background;
 		private readonly BrickSet Cup;
@@ -23,6 +29,11 @@ namespace WinForms_Tetris1
 		private readonly DoubleBuffer DoubleBuffer;
 		private readonly Polyomino.TetraminoList Tetramino = new();
 
+		public BrickSetSize CupSize
+		{
+			get { return new(rows, columns); }
+		}
+
 		public Game(Graphics graphics, Size formSize, Color backColor)
 		{
 			Graphics = graphics;
@@ -30,29 +41,23 @@ namespace WinForms_Tetris1
 			BackColor = backColor;
 			DoubleBuffer = new(Graphics, FormSize.Width, FormSize.Height);
 
-			// Размер стакана (включая стенки).
-			int rows = 20;
-			int columns = 10;
+			layers = new();
 
 			// Создаем фон стакана.
-			Background = new BrickSet(rows, columns);
-			foreach (BrickPlace place in Background)
-				Background[place.Position.Row, place.Position.Column] = new Brick(new SolidBrush(Color.Black));
+			Background = new BackgroundCreator(this).Create();
+			layers.Add(Background);
 
 			// Создаем стакан со стенками.
-			Cup = new BrickSet(rows, columns);
-			FillCupWithWalls(Cup);
+			Cup = new CupCreator(this).Create();
+			layers.Add(Cup);
 
 			// Создаем содержимое стакана.
-			CupContent = new(rows - 1, columns - 2)
-			{
-				Offset = new(1, 0)
-			};
+			CupContent = new CupContentCreator(this).Create();
+			layers.Add(CupContent);
 
 			// Создать падающую фигуру.
-			Brick figureBrick = new(new SolidBrush(Color.GreenYellow));
-			Figure = new BrickSetCreatorBasedArray(Tetramino[0], figureBrick).Create();
-			Figure.Offset = new(3, 3);
+			Figure = new FigureCreator(this).Create();
+			layers.Add(Figure);
 
 			FallingFigureTimer.Tick += new EventHandler(
 				(object? sender, EventArgs @event) => {
@@ -90,16 +95,6 @@ namespace WinForms_Tetris1
 			new BrickSetPrinter(layers, bufferedGraphics).Print();
 
 			DoubleBuffer.Render();
-		}
-
-		private static void FillCupWithWalls(BrickSet cup)
-		{
-			Func<int, int, Brick> getBrick = (row, column) => new Brick(new SolidBrush(Color.Red));
-
-			new BrickSetPainter(cup)
-				.DrawLine(0, 0, cup.Rows - 1, 0, getBrick)
-				.DrawLine(0, cup.Columns - 1, cup.Rows - 1, cup.Columns - 1, getBrick)
-				.DrawLine(cup.Rows - 1, 0, cup.Rows - 1, cup.Columns - 1, getBrick);
 		}
 
 		public void OnKeyDown(object? sender, KeyEventArgs @event)
